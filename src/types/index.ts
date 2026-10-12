@@ -1,4 +1,4 @@
-export type ReservationStatus = "checked-in" | "in-progress" | "completed" | "cancelled";
+export type ReservationStatus = "booked" | "checked-in" | "in-progress" | "completed" | "cancelled";
 
 export interface Doctor {
   id: string;

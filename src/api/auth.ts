@@ -1,15 +1,10 @@
 import type { StaffUser } from "../types";
-
-// TODO: 実API実装後は fetch("/api/auth/login") 等に差し替える
-const MOCK_STAFF: { id: string; password: string; user: StaffUser } = {
-  id: "staff01",
-  password: "password123",
-  user: { id: "staff01", name: "Front Desk A", role: "reception" },
-};
+import { apiPost, tokenStore } from "./client";
 
 export async function loginRequest(staffId: string, password: string): Promise<StaffUser | null> {
-  if (staffId === MOCK_STAFF.id && password === MOCK_STAFF.password) {
-    return MOCK_STAFF.user;
-  }
-  return null;
+  const response = await apiPost("/auth/login", { staff_id: staffId, password });
+  if (!response.ok) return null;
+  const body = (await response.json()) as { token: string; user: StaffUser };
+  tokenStore.set(body.token);
+  return body.user;
 }

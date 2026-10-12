@@ -1,7 +1,23 @@
-import type { LogEntry } from "../types";
-import { logs } from "../mocks/logs";
+import type { LogAction, LogEntry } from "../types";
+import { apiGet } from "./client";
 
-// TODO: 実API実装後は fetch("/api/logs") 等に差し替える
+interface ApiLog {
+  id: number;
+  timestamp: string;
+  action: "CREATED" | "UPDATED" | "CANCELLED";
+  appointment_id: string;
+  patient_name: string;
+  channel: "agent" | "staff";
+}
+
 export async function fetchLogs(): Promise<LogEntry[]> {
-  return logs;
+  const { items } = await apiGet<{ items: ApiLog[] }>("/dashboard/logs");
+  return items.map((l) => ({
+    id: String(l.id),
+    timestamp: l.timestamp,
+    action: l.action.toLowerCase() as LogAction,
+    reservationId: l.appointment_id,
+    patientName: l.patient_name,
+    operator: l.channel, // translated as operator.agent / operator.staff
+  }));
 }

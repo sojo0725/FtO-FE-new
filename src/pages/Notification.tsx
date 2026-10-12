@@ -129,7 +129,7 @@ export function Notification() {
                       {t(`action.${log.action}`)}
                     </span>
                   </td>
-                  <td>{log.operator}</td>
+                  <td>{t(`operator.${log.operator}`, log.operator)}</td>
                 </tr>
               ))}
             </tbody>

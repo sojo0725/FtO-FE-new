@@ -68,6 +68,7 @@
     "confirmDelete": "{{name}}さんを削除しますか?"
   },
   "status": {
+    "booked": "予約済み",
     "checked-in": "受付済み",
     "in-progress": "診察中",
     "completed": "完了",
@@ -93,5 +94,9 @@
     "fri": "金",
     "sat": "土",
     "sun": "日"
+  },
+  "operator": {
+    "agent": "AI受付",
+    "staff": "職員"
   }
 }

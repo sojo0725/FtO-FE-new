@@ -1,6 +1,7 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { StaffUser } from "../types";
 import { loginRequest } from "../api/auth";
+import { AUTH_EXPIRED_EVENT, tokenStore } from "../api/client";
 
 const STORAGE_KEY = "hospital-staff-app-user";
 
@@ -14,7 +15,7 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 function loadStoredUser(): StaffUser | null {
   const raw = window.localStorage.getItem(STORAGE_KEY);
-  if (!raw) return null;
+  if (!raw || !tokenStore.get()) return null;
   try {
     return JSON.parse(raw) as StaffUser;
   } catch {
@@ -38,7 +39,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   function logout() {
     setUser(null);
     window.localStorage.removeItem(STORAGE_KEY);
+    tokenStore.clear();
   }
+
+  // The backend refused our token (expired or revoked): back to the login page.
+  useEffect(() => {
+    const onExpired = () => {
+      setUser(null);
+      window.localStorage.removeItem(STORAGE_KEY);
+    };
+    window.addEventListener(AUTH_EXPIRED_EVENT, onExpired);
+    return () => window.removeEventListener(AUTH_EXPIRED_EVENT, onExpired);
+  }, []);
 
   return <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>;
 }

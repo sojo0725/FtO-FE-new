@@ -1,7 +1,6 @@
 import type { TherapySession } from "../types";
-import { therapySessions } from "../mocks/therapySessions";
 
-// TODO: 実API実装後は fetch("/api/therapy-sessions") 等に差し替える
+// The backend has no therapy sessions yet; show none rather than invented ones.
 export async function fetchTherapySessions(): Promise<TherapySession[]> {
-  return therapySessions;
+  return [];
 }

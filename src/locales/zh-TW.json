@@ -68,6 +68,7 @@
     "confirmDelete": "確定要刪除 {{name}} 嗎?"
   },
   "status": {
+    "booked": "已預約",
     "checked-in": "已報到",
     "in-progress": "診療中",
     "completed": "已完成",
@@ -93,5 +94,9 @@
     "fri": "五",
     "sat": "六",
     "sun": "日"
+  },
+  "operator": {
+    "agent": "AI 櫃檯",
+    "staff": "櫃檯人員"
   }
 }

@@ -6,12 +6,10 @@ import { fetchPatients } from "../api/patients";
 import { fetchTherapySessions } from "../api/therapySessions";
 import { getDoctorName, getPatientName } from "../utils/lookup";
 import type { Doctor, Patient, Reservation, TherapySession } from "../types";
+import { localIso } from "../utils/date";
 
 const DOCTOR_CARD_COUNT = 3;
 
-function todayIso(): string {
-  return new Date().toISOString().slice(0, 10);
-}
 
 export function Main() {
   const { t } = useTranslation();
@@ -31,7 +29,7 @@ export function Main() {
     return <p>{t("common.loading")}</p>;
   }
 
-  const today = todayIso();
+  const today = localIso();
   const todaysReservations = reservations
     .filter((r) => r.date === today)
     .sort((a, b) => a.time.localeCompare(b.time));
@@ -52,7 +50,7 @@ export function Main() {
     <div className="dashboard">
       <div className="doctor-card-row">
         {byDoctor.map(({ doctor, list }) => {
-          const current = list.filter((r) => r.status !== "checked-in").length;
+          const current = list.filter((r) => r.status === "in-progress" || r.status === "completed").length;
           return (
             <div className="doctor-card" key={doctor.id}>
               <div className="doctor-card__header">

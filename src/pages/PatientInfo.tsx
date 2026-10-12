@@ -182,7 +182,7 @@ export function PatientInfo() {
                         </div>
                         <div>
                           <span className="detail-grid__label">{t("patientInfo.birthDate")}</span>
-                          <span>{p.birthDate}</span>
+                          <span>{p.birthDate || "-"}</span>
                         </div>
                         <div>
                           <span className="detail-grid__label">{t("patientInfo.lastVisit")}</span>

@@ -826,3 +826,4 @@ button {
   gap: 8px;
   margin-top: 8px;
 }
+.queue-status--booked { color: var(--status-checked-in); }

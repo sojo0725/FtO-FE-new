@@ -68,6 +68,7 @@
     "confirmDelete": "{{name}} 님을 삭제하시겠습니까?"
   },
   "status": {
+    "booked": "예약됨",
     "checked-in": "접수 완료",
     "in-progress": "진료 중",
     "completed": "완료",
@@ -93,5 +94,9 @@
     "fri": "금",
     "sat": "토",
     "sun": "일"
+  },
+  "operator": {
+    "agent": "AI 접수",
+    "staff": "직원"
   }
 }

@@ -3,15 +3,14 @@ import { useTranslation } from "react-i18next";
 import { fetchReservations } from "../api/reservations";
 import { fetchDoctors } from "../api/doctors";
 import { fetchPatients } from "../api/patients";
+import { localIso } from "../utils/date";
 import { getPatientName } from "../utils/lookup";
 import { ChevronLeftIcon, ChevronRightIcon } from "../components/icons";
 import type { Doctor, Patient, Reservation } from "../types";
 
 const WEEKDAY_KEYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
 
-function toIso(date: Date): string {
-  return date.toISOString().slice(0, 10);
-}
+const toIso = (date: Date) => localIso(date);
 
 function startOfMonth(date: Date): Date {
   return new Date(date.getFullYear(), date.getMonth(), 1);

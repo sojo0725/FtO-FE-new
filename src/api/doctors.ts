@@ -1,7 +1,14 @@
 import type { Doctor } from "../types";
-import { doctors } from "../mocks/doctors";
+import { apiGet } from "./client";
 
-// TODO: 実API実装後は fetch("/api/doctors") 等に差し替える
+interface ApiDoctor {
+  id: string;
+  name: string;
+  department: string;
+  working_days: string[];
+}
+
 export async function fetchDoctors(): Promise<Doctor[]> {
-  return doctors;
+  const { items } = await apiGet<{ items: ApiDoctor[] }>("/dashboard/doctors");
+  return items.map((d) => ({ id: d.id, name: d.name, department: d.department, workingDays: d.working_days }));
 }

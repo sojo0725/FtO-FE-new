@@ -1,7 +1,22 @@
 import type { Patient } from "../types";
-import { patients } from "../mocks/patients";
+import { apiGet } from "./client";
 
-// TODO: 実API実装後は fetch("/api/patients") 等に差し替える
+interface ApiPatient {
+  id: string;
+  name: string;
+  phone: string;
+  last_visit: string | null;
+  primary_doctor_id: string | null;
+}
+
 export async function fetchPatients(): Promise<Patient[]> {
-  return patients;
+  const { items } = await apiGet<{ items: ApiPatient[] }>("/dashboard/patients");
+  return items.map((p) => ({
+    id: p.id,
+    name: p.name,
+    birthDate: "", // not collected by the booking agent
+    phone: p.phone,
+    lastVisit: p.last_visit,
+    primaryDoctorId: p.primary_doctor_id ?? "",
+  }));
 }
