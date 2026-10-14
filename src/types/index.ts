@@ -46,6 +46,10 @@ export interface LogEntry {
   reservationId: string;
   patientName: string;
   operator: string;
+  // The slot as of this event; for "updated", where it moved from.
+  doctorName?: string;
+  startsAt?: string;
+  prevStartsAt?: string | null;
 }
 
 export interface StaffUser {

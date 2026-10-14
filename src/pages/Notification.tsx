@@ -32,7 +32,30 @@ export function Notification() {
     [i18n.language]
   );
 
+  const slotFormatter = useMemo(
+    () =>
+      new Intl.DateTimeFormat(i18n.language, {
+        month: "numeric",
+        day: "numeric",
+        weekday: "short",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+        timeZone: "Asia/Taipei",
+      }),
+    [i18n.language]
+  );
+
+  function slotForLog(log: LogEntry): string {
+    if (!log.startsAt) return "-";
+    const slot = slotFormatter.format(new Date(log.startsAt));
+    return log.prevStartsAt ? `${slotFormatter.format(new Date(log.prevStartsAt))} → ${slot}` : slot;
+  }
+
   function doctorNameForLog(log: LogEntry): string {
+    // The log names the doctor as of the event; older backends do not, so
+    // fall back to the booking's current doctor.
+    if (log.doctorName) return log.doctorName;
     const reservation = reservations.find((r) => r.id === log.reservationId);
     return reservation ? getDoctorName(doctors, reservation.doctorId) : "-";
   }
@@ -113,6 +136,7 @@ export function Notification() {
               <tr>
                 <th>{t("notification.timestamp")}</th>
                 <th>{t("notification.patient")}</th>
+                <th>{t("notification.slot")}</th>
                 <th>{t("main.doctor")}</th>
                 <th>{t("notification.action")}</th>
                 <th>{t("notification.operator")}</th>
@@ -123,6 +147,7 @@ export function Notification() {
                 <tr key={log.id}>
                   <td>{dateTimeFormatter.format(new Date(log.timestamp))}</td>
                   <td>{log.patientName}</td>
+                  <td>{slotForLog(log)}</td>
                   <td>{doctorNameForLog(log)}</td>
                   <td>
                     <span className={`log-status log-status--${log.action}`}>

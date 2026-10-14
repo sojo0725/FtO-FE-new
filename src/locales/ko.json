@@ -40,6 +40,7 @@
   "notification": {
     "title": "예약 이력 로그",
     "timestamp": "발생 일시",
+    "slot": "예약 일시",
     "action": "작업 유형",
     "patient": "대상 환자",
     "operator": "처리자",

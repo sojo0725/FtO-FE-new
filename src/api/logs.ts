@@ -8,6 +8,9 @@ interface ApiLog {
   appointment_id: string;
   patient_name: string;
   channel: "agent" | "staff";
+  doctor_name?: string;
+  starts_at?: string;
+  prev_starts_at?: string | null;
 }
 
 export async function fetchLogs(): Promise<LogEntry[]> {
@@ -19,5 +22,8 @@ export async function fetchLogs(): Promise<LogEntry[]> {
     reservationId: l.appointment_id,
     patientName: l.patient_name,
     operator: l.channel, // translated as operator.agent / operator.staff
+    doctorName: l.doctor_name,
+    startsAt: l.starts_at,
+    prevStartsAt: l.prev_starts_at,
   }));
 }

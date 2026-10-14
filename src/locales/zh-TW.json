@@ -40,6 +40,7 @@
   "notification": {
     "title": "預約歷史紀錄",
     "timestamp": "發生時間",
+    "slot": "預約時段",
     "action": "操作類型",
     "patient": "對象患者",
     "operator": "操作人員",

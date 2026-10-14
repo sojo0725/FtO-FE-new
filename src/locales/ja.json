@@ -40,6 +40,7 @@
   "notification": {
     "title": "予約履歴ログ",
     "timestamp": "発生日時",
+    "slot": "予約日時",
     "action": "操作種別",
     "patient": "対象患者",
     "operator": "操作者",
