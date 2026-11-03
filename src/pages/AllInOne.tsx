@@ -2,11 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { fetchReservations } from "../api/reservations";
 import { fetchDoctors } from "../api/doctors";
-import { fetchPatients } from "../api/patients";
 import { localIso } from "../utils/date";
-import { getPatientName } from "../utils/lookup";
 import { ChevronLeftIcon, ChevronRightIcon } from "../components/icons";
-import type { Doctor, Patient, Reservation } from "../types";
+import type { Doctor, Reservation } from "../types";
 
 const WEEKDAY_KEYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
 
@@ -46,12 +44,10 @@ export function AllInOne() {
   const [typeFilter, setTypeFilter] = useState("all");
   const [reservations, setReservations] = useState<Reservation[] | null>(null);
   const [doctors, setDoctors] = useState<Doctor[]>([]);
-  const [patients, setPatients] = useState<Patient[]>([]);
 
   useEffect(() => {
     fetchReservations().then(setReservations);
     fetchDoctors().then(setDoctors);
-    fetchPatients().then(setPatients);
   }, []);
 
   const monthLabel = useMemo(
@@ -150,8 +146,12 @@ export function AllInOne() {
             >
               <span className="calendar-cell__date">{day.getDate()}</span>
               {visibleEvents.map((r) => (
-                <span className="calendar-event" key={r.id} title={`${r.time} ${getPatientName(patients, r.patientId)}`}>
-                  {r.time} {getPatientName(patients, r.patientId)}
+                <span
+                  className="calendar-event"
+                  key={r.id}
+                  title={`${r.time} ${r.patientName}${r.patientBirthDate ? ` (${r.patientBirthDate})` : ""}`}
+                >
+                  {r.time} {r.patientName}
                 </span>
               ))}
               {overflow > 0 && <span className="calendar-event--more">{t("allInOne.moreCount", { count: overflow })}</span>}
