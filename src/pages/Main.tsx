@@ -81,7 +81,10 @@ export function Main() {
                     {list.map((r, index) => (
                       <tr key={r.id}>
                         <td>{index + 1}</td>
-                        <td>{getPatientName(patients, r.patientId)}</td>
+                        <td>
+                          {r.patientName}
+                          {r.patientBirthDate && ` (${r.patientBirthDate})`}
+                        </td>
                         <td>
                           <span className={`queue-status queue-status--${r.status}`}>
                             {t(`status.${r.status}`)}

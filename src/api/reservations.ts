@@ -4,7 +4,7 @@ import { apiGet } from "./client";
 interface ApiReservation {
   appointment_id: string;
   status: "BOOKED" | "CANCELLED";
-  patient: { id: string };
+  patient: { id: string; name: string; birth_date?: string | null };
   doctor: { id: string; department: string };
   starts_at: string; // RFC3339 in clinic time, e.g. 2026-10-14T17:00:00+08:00
   ends_at: string;
@@ -19,6 +19,8 @@ function toReservation(r: ApiReservation): Reservation {
   return {
     id: r.appointment_id,
     patientId: r.patient.id,
+    patientName: r.patient.name,
+    patientBirthDate: r.patient.birth_date ?? null,
     doctorId: r.doctor.id,
     // The backend stores clinic-local times, so the wall clock is in the string itself.
     date: r.starts_at.slice(0, 10),

@@ -19,6 +19,9 @@ export interface Patient {
 export interface Reservation {
   id: string;
   patientId: string;
+  // Who this visit is for, which a parent's phone number alone cannot say.
+  patientName: string;
+  patientBirthDate: string | null; // ISO date
   doctorId: string;
   date: string; // ISO date (YYYY-MM-DD)
   time: string; // HH:mm
